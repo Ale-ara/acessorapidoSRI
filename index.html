@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <title>[SRI/INS] Acesso rápido</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" />
+  <link href="https://i.imgur.com/AfghePh.gif" rel="icon" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet" />
+
+  <style>
+    html {
+      height: 100%;
+      background: linear-gradient(90deg, #004688, #00529e);
+      background-size: 200% 200%;
+      background-attachment: fixed;
+      animation: gradientAnimation 15s ease infinite;
+    }
+
+    @keyframes gradientAnimation {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      font-family: "Poppins", sans-serif;
+      overflow-y: auto;
+      background: transparent;
+      scrollbar-width: thin;
+      scrollbar-color: #004688 #126bbe;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      width: 100%;
+      max-width: 600px;
+      text-align: center;
+      position: relative;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .logo {
+      width: 100%;
+      max-width: 330px;
+      height: auto;
+      margin: 50px;
+      position: relative;
+      z-index: 0;
+      margin-top: -60px;
+    }
+
+    .logo-container {
+      position: relative;
+      display: inline-block;
+      overflow: visible;
+      transition: transform 0.3s ease-in-out;
+      text-align: center;
+    }
+
+    .logo-container:hover {
+      transform: scale(1.05);
+      filter: brightness(1.1);
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-top: -70px;
+      z-index: 1;
+      width: 100%;
+    }
+
+    .button {
+      flex: 1 1 40%;
+      margin: 10px;
+      padding: 5px 0;
+      background: linear-gradient(to right, rgba(255, 255, 255, 0.2), white 50%, rgba(255, 255, 255, 0.2));
+      color: #c76119;
+      border: none;
+      cursor: pointer;
+      border-radius: 1.15rem;
+      height: 90px;
+      text-align: center;
+      font-weight: 800;
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      filter: grayscale(100%);
+      text-decoration: none;
+      font-size: 14px;
+      transition: 0.5s;
+    }
+
+    .button .icon {
+      margin-right: 8px;
+      font-size: 18px;
+    }
+
+    .button:hover,
+    .button:focus,
+    .button:active,
+    .button.selected {
+      background-color: #2D5CAB;
+      filter: grayscale(0%);
+      transform: scale(1.01);
+      color: white;
+    }
+
+    .credits {
+      text-align: center;
+      margin-top: 40px;
+      padding: 10px;
+      border-top: 1px solid #ffffff;
+      font-size: 12px;
+      color: #ffffffc8;
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 1s ease;
+      width: 100%;
+    }
+
+    .credits p strong {
+      color: rgba(255, 255, 255, 0.95);
+    }
+
+    .credits i {
+      margin-right: 8px;
+    }
+
+    ::-webkit-scrollbar {
+      width: 12px;
+      height: 12px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: #004688;
+      border-radius: 0;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: #004688;
+      border-radius: 0;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: #1e7cd3;
+    }
+
+    .sem-sublinhado {
+      text-decoration: none;
+    }
+
+    /* Loader */
+    .loader-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: linear-gradient(90deg, #00529e, #96b3c7),
+        linear-gradient(-45deg, #7a8e9f, #96b3c7, #7a8e9f, #96b3c7);
+      background-blend-mode: overlay;
+      background-size: 400% 400%;
+      animation: gradient-animation 6s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      opacity: 1;
+      transition: opacity 0.5s ease;
+    }
+
+    .load {
+      width: 150px;
+      height: 150px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .load img {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      animation: spin 2s ease infinite;
+      transform-origin: center;
+    }
+
+    .load img:nth-child(1) { animation-delay: -1.5s; transform: translate(70px, 0); }
+    .load img:nth-child(2) { animation-delay: -1s; transform: translate(0, 70px); }
+    .load img:nth-child(3) { animation-delay: -0.5s; transform: translate(-70px, 0); }
+    .load img:nth-child(4) { animation-delay: 0s; transform: translate(0, -70px); }
+
+    @keyframes spin {
+      0%, 100% { transform: translate(0); }
+      25% { transform: translate(160%); }
+      50% { transform: translate(160%, 160%); }
+      75% { transform: translate(0, 160%); }
+    }
+
+    .fade-out {
+      animation: fadeOut 2s ease forwards;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
+    @media only screen and (max-width: 900px) {
+      .buttons {
+        flex-direction: column;
+      }
+      .button {
+        width: 80%;
+        margin: 10px auto;
+      }
+    }
+  </style>
+
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+  <div class="loader-container" id="loader">
+    <div class="load">
+      <img src="https://i.imgur.com/AfghePh.gif" alt="Logo 1" />
+      <img src="https://i.imgur.com/AfghePh.gif" alt="Logo 2" />
+      <img src="https://i.imgur.com/AfghePh.gif" alt="Logo 3" />
+      <img src="https://i.imgur.com/AfghePh.gif" alt="Logo 4" />
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="logo-container">
+      <img class="logo" alt="Logo" src="https://i.imgur.com/r12vDab.png" />
+    </div>
+
+    <div class="buttons">
+      <a class="button sem-sublinhado" href="https://docs.google.com/spreadsheets/d/1UQCPN2dPVXfjrWTgjiYnhqZsd8SMLcUxW1HF8P9QXjc/edit?gid=642465455#gid=642465455" target="_blank">
+        <span class="icon"><i class="fas fa-calendar-alt"></i></span> Escala
+      </a>
+      <a class="button sem-sublinhado" href="https://docs.google.com/spreadsheets/d/10FE_0AvHuUWP1ODc2ZiYvIRjrMDr9UR51XmEF1JvmO4/edit?gid=894496328#gid=894496328" target="_blank">
+        <span class="icon"><i class="fas fa-tasks"></i></span> Relatório de Funções
+      </a>
+      <a class="button sem-sublinhado" href="https://www.policiarcc.com/h113-soi-mensagem-privada-automatica target="_blank">
+        <span class="icon"><i class="fas fa-envelope-open-text"></i></span> Envio de Orientação
+      </a>
+      <a class="button sem-sublinhado" href="https://docs.google.com/forms/d/e/1FAIpQLSdxy--vZXbuJX51JWI4rWEiZ_SCOa7EF_5LeBX2I-paqtIAhA/viewform" target="_blank">
+        <span class="icon"><i class="fas fa-clipboard-list"></i></span> Registro de Funções
+      </a>
+      <a class="button sem-sublinhado" href="https://drive.google.com/drive/folders/1TysdqCMrfdVUQr_x6g5e8ax2jncAtEWj" target="_blank">
+        <span class="icon"><i class="fas fa-database"></i></span> Backups
+      </a>
+    </div>
+
+    <div class="credits">
+      <p><i class="far fa-registered"></i> Todos os direitos reservados ao <strong>Setor de Orientação dos Instrutores</strong></p>
+    </div>
+  </div>
+
+  <script>
+    window.addEventListener("load", function () {
+      const loader = document.getElementById("loader");
+      loader.classList.add("fade-out");
+      setTimeout(() => loader.style.display = "none", 2000);
+    });
+  </script>
+</body>
+</html>
